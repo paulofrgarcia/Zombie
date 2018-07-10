@@ -60,3 +60,61 @@ struct ast_node *new_ast_cons(int c)
 	return node;
 }
 
+//AST correctness checking
+int ast_check_valid_identifiers(struct ast_node *a)
+{
+	switch (a->type)
+	{
+	case AST_DATUM:
+	{
+		if(ast_check_valid_identifiers(a->s_exp))
+			return 1;
+		if(a->n_datum != NULL)
+			return ast_check_valid_identifiers(a->n_datum);
+		else
+			return 0;
+	} break;
+	case AST_SEXP:
+	{
+		if(ast_check_valid_identifiers(a->ls_exp))
+			return 1;
+		if(ast_check_valid_identifiers(a->rs_exp))
+			return 1;
+	} break;
+	case AST_IDENT:
+	{
+		return sym_valid_datum(a->identifier);
+	} break;
+	case AST_CONST:
+	{
+		return 0;
+	} break;
+	default:
+		printf("Unknown AST node type.\n");
+		return 1;
+	}
+	
+	return 0;
+}
+
+int ast_typecheck()
+{
+	//check that all used identifiers are valid data
+	if(ast_check_valid_identifiers(ast))
+	{
+		return 1;
+	}
+	//Here, AST is correct except for zombie (referring to same identifier)
+	//TODO
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+

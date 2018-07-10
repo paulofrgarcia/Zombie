@@ -23,12 +23,17 @@ struct ast_node
 	int constant;
 };
 
+//AST creation during parsing
 struct ast_node *new_ast_datum(char *n, struct ast_node *a, struct ast_node *next);
 struct ast_node *new_ast_sexp(int o, struct ast_node *l, struct ast_node *r);
 struct ast_node *new_ast_ident(char *i);
 struct ast_node *new_ast_cons(int c);
 
 struct ast_node *ast;
+
+//AST correctness checking
+int ast_check_valid_identifiers(struct ast_node *a);
+int ast_typecheck();
 
 
 #endif

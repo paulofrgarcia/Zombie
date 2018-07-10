@@ -1,4 +1,4 @@
-FILES	= lex.yy.c parser.tab.c main.c ast.c
+FILES	= lex.yy.c parser.tab.c main.c ast.c symtable.c ir.c
 CC	= gcc
 CFLAGS	= -g 
 

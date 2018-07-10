@@ -6,6 +6,7 @@
  */
 #include<stdio.h>
 #include "ast.h"
+#include "symtable.h"
 
 int yyerror() {
     printf("Syntax error\n");
@@ -30,8 +31,8 @@ int yyerror() {
 %%
 
 program
-	: IDENTIFIER '=' s_exp ';' 		{ast = $$ = new_ast_datum($1, $3, NULL);}
-	| program IDENTIFIER '=' s_exp ';' 	{ast = $$ = new_ast_datum($2, $4, $1);};
+	: IDENTIFIER '=' s_exp ';' 		{ast = $$ = new_ast_datum($1, $3, NULL); sym_add_sym($1,ast);}
+	| program IDENTIFIER '=' s_exp ';' 	{ast = $$ = new_ast_datum($2, $4, $1); sym_add_sym($2,ast);} ;
  
 
 s_exp

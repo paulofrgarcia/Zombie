@@ -36,10 +36,10 @@ WS          [ \r\n\t]*
 "if"		{return IF;}
 "life" 		{return LIFE;}
 "zombie" 	{return ZOMBIE;}
-{IDENT}		{ yylval.name = strdup((const char *)yytext); printf("%s\n",yylval.name); return IDENTIFIER; }
+{IDENT}		{ yylval.name = strdup((const char *)yytext); return IDENTIFIER; }
 .               { return yytext[0]; }
  
 %%
  
-int yywrap(){return 0;}
+int yywrap(){return 1;}
 
