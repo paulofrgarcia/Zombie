@@ -8,6 +8,7 @@ struct ast_node *new_ast_datum(char *n, struct ast_node *a, struct ast_node *nex
 {
 	struct ast_node *node;
 	node = (struct ast_node *)malloc(sizeof(struct ast_node));
+	node->name = n;
 	node->type = AST_DATUM;
 	node->s_exp = a;
 	node->n_datum = next;

@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include"parser.tab.h"
 #include "ast.h"
+#include"ir.h"
 
 extern FILE *yyin;
 
