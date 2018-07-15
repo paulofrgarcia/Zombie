@@ -22,4 +22,6 @@ void run_init_runtime(struct ir_node *i);
 //updates life and death and evaluates
 int run_horde();
 
+void run_prop_life(struct horde_node *h);
+
 #endif

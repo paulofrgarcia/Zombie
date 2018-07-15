@@ -1,5 +1,6 @@
 #include"ir.h"
 #include"runtime.h"
+#include"parser.tab.h"
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -24,4 +25,19 @@ void run_init_runtime(struct ir_node *i)
 		i = i->next;
 	}
 	printf("Horde initialized: found %d live ones.\n",liveones);
+}
+
+//propagates datum life to other data, kills datum, removes from horde, adds alive ones to horde
+void run_prop_life(struct horde_node *h)
+{
+	
+}
+
+
+
+//goes through the horde list, evaluates all alive ones
+//updates life and death and evaluates
+int run_horde()
+{
+	
 }
