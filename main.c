@@ -7,6 +7,7 @@
 extern FILE *yyin;
 
 extern struct lin_ast_node *l_ast;
+extern struct ir_node *ir;
 
 int main(int argc, char *argv[])
 {
@@ -41,5 +42,8 @@ int main(int argc, char *argv[])
 
 	//generate IR
 	ir_gen_ir();
+
+	//Initialize runtime
+	run_init_runtime(ir);
 	return 0;
 }
