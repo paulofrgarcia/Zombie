@@ -4,7 +4,7 @@
 #include<string.h>
 
 
-struct lin_ast_node *last = NULL;
+struct lin_ast_node *l_ast = NULL;
 
 void lin_print_last(struct lin_ast_node *l)
 {
@@ -43,7 +43,7 @@ int lin_name_exists(char *n)
 	if(n == NULL)
 		return 0;
 
-	struct lin_ast_node *l = last;
+	struct lin_ast_node *l = l_ast;
 
 	while(l != NULL)
 	{
@@ -80,9 +80,9 @@ char *lin_new_const(char *n, int c)
 
 	l->IR_done = 0;
 
-	l->next = last;
+	l->next = l_ast;
 
-	last = l;
+	l_ast = l;
 
 	return n;
 }
@@ -112,9 +112,9 @@ char *lin_new_ident(char *n, char *i)
 
 	l->IR_done = 0;
 
-	l->next = last;
+	l->next = l_ast;
 
-	last = l;
+	l_ast = l;
 
 	return n;
 }
@@ -148,9 +148,9 @@ char *lin_new_sexp(char *n, int o, char *left, char *right)
 
 	l->IR_done = 0;
 
-	l->next = last;
+	l->next = l_ast;
 
-	last = l;
+	l_ast = l;
 
 	return n;
 }

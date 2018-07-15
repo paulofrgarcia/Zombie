@@ -28,7 +28,7 @@ struct lin_ast_node
 };
 
 
-struct lin_ast_node *last = NULL;
+
 
 char *lin_gen_last(struct ast_node *a);
 char *lin_gen_name();

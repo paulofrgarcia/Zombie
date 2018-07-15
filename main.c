@@ -5,8 +5,8 @@
 #include"lin_ast.h"
 
 extern FILE *yyin;
-extern struct lin_ast_node *last;
 
+extern struct lin_ast_node *l_ast;
 
 int main(int argc, char *argv[])
 {
@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 	//Linearize AST
 	lin_gen_last(ast);
 
-	lin_print_last(last);
+	lin_print_last(l_ast);
 
 	//generate IR
 	//ir_gen_ir();
