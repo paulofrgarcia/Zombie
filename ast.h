@@ -35,5 +35,8 @@ struct ast_node *ast;
 int ast_check_valid_identifiers(struct ast_node *a);
 int ast_typecheck();
 
+//Displays the AST (debug purposes)
+void ast_print_ast(struct ast_node *a, int cnt);
+
 
 #endif

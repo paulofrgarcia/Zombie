@@ -11,6 +11,7 @@ void sym_add_sym(char *s, struct ast_node *a)
 	n = (struct sym_node *)malloc(sizeof(struct sym_node));
 	n->name = s;
 	n-> ast_entry = a;
+	n->ir_entry = NULL;
 	if(sym_table == NULL)
 	{
 		sym_table = n;
@@ -38,3 +39,42 @@ int sym_valid_datum(char *i)
 	printf("Error: Symbol %s is not a defined datum.\n",i);
 	return 1;
 }
+
+//Adds pointer to IR entry i of symbol named s
+void sym_add_ir(char *s, struct ir_node *i)
+{
+	struct sym_node *n;
+	n = sym_table;
+
+	while(n != NULL)
+	{
+		if(strcmp(n->name, s)==0)
+		{
+			n->ir_entry = i;
+			return;
+		}
+		n = n->next;
+	}
+	printf("Error: Symbol %s is not a defined datum.\n",s);
+	return;
+}
+
+
+//Returns pointer to IR entry of symbol s
+struct ir_node *sym_get_ir(char *s)
+{
+	struct sym_node *n;
+	n = sym_table;
+
+	while(n != NULL)
+	{
+		if(strcmp(n->name, s)==0)
+		{
+			return n->ir_entry;
+		}
+		n = n->next;
+	}
+	printf("Error: Symbol %s is not a defined datum.\n",s);
+	return NULL;
+}
+

@@ -110,7 +110,43 @@ int ast_typecheck()
 	return 0;
 }
 
+//Displays the AST (debug purposes)
+void ast_print_ast(struct ast_node *a, int cnt)
+{
+	int i;
+	if(a == NULL)
+	return;
 
+	for(i=0;i<cnt;i++)
+	{
+		printf("\t");
+	}
+	
+	switch(a->type)
+	{
+	case(AST_DATUM):
+	{
+		printf("DATUM %s\n",a->name);
+		ast_print_ast(a->s_exp, cnt+1);
+		printf("\n");
+		ast_print_ast(a->n_datum, cnt);
+	} break;
+	case(AST_IDENT):
+	{
+		printf("IDENT %s\n",a->identifier);
+	} break;
+	case(AST_CONST):
+	{
+		printf("CONST %d\n",a->constant);
+	} break;
+	case(AST_SEXP):
+	{
+		printf("SEXP\n");
+		ast_print_ast(a->ls_exp, cnt+1);
+		ast_print_ast(a->rs_exp, cnt+1);
+	} break;
+	}
+}
 
 
 

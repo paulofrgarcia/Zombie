@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
 		printf("Error: terminating...\n");
 		return 0;
 	}
+	ast_print_ast(ast, 0);
 	//generate IR
 	ir_gen_ir();
 	return 0;

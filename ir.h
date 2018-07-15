@@ -45,6 +45,12 @@ struct ir_node *ir_new_sexp(char *name, int o, struct ir_node *l, struct ir_node
 //Generates the partial IR from the AST
 struct ir_node *ir_gen_partial_ir(struct ast_node *a);
 
+//Fixes all dependency pointers in all data
+void ir_fix_dependencies(struct ir_node *i);
+
+//Adds dependency dep to entry source
+void ir_add_dependency(struct ir_node *source,struct ir_node *dep);
+
 void ir_gen_ir();
 
 #endif
