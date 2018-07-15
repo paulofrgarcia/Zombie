@@ -12,7 +12,7 @@
 struct ir_node;
 
 //Used to implement a list of ir_nodes that depend on us (this datum)
-//Will be implemnented as static memory in compilation
+//Will be implemented as static memory in compilation
 struct dependent_node
 {
 	struct ir_node *d_node;
@@ -24,7 +24,7 @@ struct ir_node
 	char *name; //can be NULL for unnamed data
 	int state; //alive, dead, undead
 	int operation; //atomic operation to perform
-	int value; //resolve value, e.g., constant or result of calculation
+	int value; //resolved value, e.g., constant or result of calculation
 	struct dependent_node *depend_list; //List of dependent nodes
 	char *ident; //If only one operand (identifier)
 	struct ir_node *first; //pointer to first S_exp operand. 
@@ -44,6 +44,9 @@ struct ir_node *ir_new_sexp(char *name, int o, struct ir_node *l, struct ir_node
 
 //Generates the partial IR from the AST
 struct ir_node *ir_gen_partial_ir(struct ast_node *a);
+
+//Generates the first stage IR from the AST
+struct ir_node *ir_gen_first_stage(struct ast_node *a);
 
 //Fixes all dependency pointers in all data
 void ir_fix_dependencies(struct ir_node *i);

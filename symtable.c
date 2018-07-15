@@ -59,6 +59,23 @@ void sym_add_ir(char *s, struct ir_node *i)
 	return;
 }
 
+struct ast_node *sym_get_ast(char *s)
+{
+	struct sym_node *n;
+	n = sym_table;
+
+	while(n != NULL)
+	{
+		if(strcmp(n->name, s)==0)
+		{
+			return n->ast_entry;
+		}
+		n = n->next;
+	}
+	printf("Error: Symbol %s is not a defined datum.\n",s);
+	return NULL;
+}
+
 
 //Returns pointer to IR entry of symbol s
 struct ir_node *sym_get_ir(char *s)

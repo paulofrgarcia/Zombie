@@ -17,6 +17,8 @@ struct sym_node
 
 
 void sym_add_sym(char *s, struct ast_node *a);
+struct ast_node *sym_get_ast(char *s);
+
 int sym_valid_datum(char *i);
 
 //Adds pointer to IR entry i of symbol named s

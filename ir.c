@@ -141,7 +141,8 @@ struct ir_node *ir_gen_partial_ir(struct ast_node *a)
 		case AST_IDENT:
 		{
 			printf("IDENT Should never be reached %s\n",a->identifier);
-			result = ir_new_ident(a->name, a->identifier);
+			//Let's find the identifier definition (AST entry) and genrate IR from there
+			result = ir_gen_partial_ir(sym_get_ast(a->identifier));
 			
 		} break;
 		case AST_CONST:
@@ -158,7 +159,59 @@ struct ir_node *ir_gen_partial_ir(struct ast_node *a)
 	return result;
 }
 
+struct ir_node *ir_gen_first_stage(struct ast_node *a)
+{
 
+	struct ir_node *result = NULL;
+	if(a != NULL)
+	{	
+		switch(a->type)
+		{
+		case AST_DATUM:
+		{
+			//Is it a constant?
+			if(a->s_exp->type == AST_CONST)
+			{
+				printf("Const %s\n",a->name);
+				result = ir_new_const(a->name, a->s_exp->constant);
+				sym_add_ir(a->name, result);
+			}
+			//Not a constant, S expression or identifier
+			else
+			{
+				//Just depends of another datum?
+				if(a->s_exp->type == AST_IDENT)
+				{
+					printf("IDENT %s\n",a->name);
+					result = ir_new_ident(a->name, a->s_exp->identifier);
+					sym_add_ir(a->name, result);
+				}
+			}
+			//move on to next datum
+			ir_gen_partial_ir(a->n_datum);
+		} break;
+		case AST_SEXP:
+		{
+			printf("SEXP Should never be reached\n");
+		} break;
+		case AST_IDENT:
+		{
+			printf("IDENT Should never be reached\n");
+			
+		} break;
+		case AST_CONST:
+		{
+			printf("CONST Should never be reached\n");
+		} break;
+		default:
+		{
+			printf("Error: unknown AST type.\n");
+			return;
+		}		
+		}		
+	}
+	return result;
+}
 
 
 //Adds dependency dep to entry source
@@ -185,7 +238,7 @@ void ir_fix_dependencies(struct ir_node *i)
 		//If only sourcing another datum
 		if(i->operation == SOURCE)
 		{
-			printf("Sourcing\n");
+			
 			ir_add_dependency(sym_get_ir(i->ident),i);
 		}
 
@@ -193,13 +246,10 @@ void ir_fix_dependencies(struct ir_node *i)
 		//Just fix from S_Exp (const has no deoendencies)
 		if(i->state != ALIVE)
 		{
-			printf("Depend %s\n",i->name);
-
-
 			ir_add_dependency(i->first,i);
-			printf("Depend %s\n",i->name);
+			
 			ir_add_dependency(i->second,i);
-			printf("Depend %s\n",i->name);
+			
 		}
 		ir_fix_dependencies(i->next);
 	}
@@ -208,11 +258,28 @@ void ir_fix_dependencies(struct ir_node *i)
 
 void ir_gen_ir()
 {
+	int entries = 0;
+	struct ir_node *i;
+
 	//Generate 1st stage IR from AST
+	//Only alive IR entries (e.g., constants)
+	ir_gen_first_stage(ast);
+
+	//Print number of IR entries
+	for(i=ir;i!=NULL;i=i->next)
+		entries++;
+	printf("%d IR entries.\n",entries);
+	entries = 0;
+
 	ir_gen_partial_ir(ast);	
 	
 	//TODO: backtrack to fix dependencies in each datum
-	//ir_fix_dependencies(ir);
+	ir_fix_dependencies(ir);
+
+	//Print number of IR entries
+	for(i=ir;i!=NULL;i=i->next)
+		entries++;
+	printf("%d IR entries.\n",entries);
 }
 
 
