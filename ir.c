@@ -19,6 +19,9 @@ struct ir_node *ir_get_node(char *s)
 
 	i = ir;
 
+	if(s == NULL)
+		printf("Error: invalid name\n");
+
 	while(i != NULL)
 	{
 		if(strcmp(i->name,s)==0)
@@ -80,15 +83,18 @@ void ir_gen_ir()
 		a = a->next;
 	}
 
+	
+
 	//Map dependencies
 	a = l_ast;
 
 	while(a != NULL)
 	{
-		
-		ir_set_dependency(ir_get_node(a->ls_exp),ir_get_node(a->name),D_LEFT);
-		ir_set_dependency(ir_get_node(a->rs_exp),ir_get_node(a->name),D_RIGHT);
-
+		if(!(a->type == LIN_AST_TERM && a->identifier == NULL))
+		{
+			ir_set_dependency(ir_get_node(a->ls_exp),ir_get_node(a->name),D_LEFT);
+			ir_set_dependency(ir_get_node(a->rs_exp),ir_get_node(a->name),D_RIGHT);
+		}
 		a = a->next;
 	}
 }

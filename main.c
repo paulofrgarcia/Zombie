@@ -40,6 +40,6 @@ int main(int argc, char *argv[])
 	lin_print_last(l_ast);
 
 	//generate IR
-	//ir_gen_ir();
+	ir_gen_ir();
 	return 0;
 }
